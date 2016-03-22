@@ -19,29 +19,8 @@ module Paperclip
     #   `execute 'ALTER TABLE paperclip_database_files ADD COLUMN file_contents LONGBLOB'`
     #
     # 3. By default, URLs will be set to this pattern:
-    #   /:relative_root/:class/:attachment/:id?style=:style
+    #   /:relative_root/:class/:attachment/:id/:style
     #
-    # Example:
-    #   /app-root-url/users/avatars/23?style=original
-    #
-    # The idea here is that to retrieve a file from the database storage, you will need some
-    # controller's code to be executed.
-    #
-    # Once you pick a controller to use for downloading, you can add this line
-    # to generate the download action for the default URL/action (the plural attachment name),
-    # "avatars" in this example:
-    #   downloads_files_for :user, :avatar
-    #
-    # Or you can write a download method manually if there are security, logging or other
-    # requirements.
-    #
-    # If you prefer a different URL for downloading files you can specify that in the model; e.g.:
-    #   has_attached_file :avatar, :storage => :database, :url => '/users/show_avatar/:id/:style'
-    #
-    # 4. Add a route for the download to the controller which will handle downloads, if necessary.
-    #
-    # The default URL, /:relative_root/:class/:attachment/:id?style=:style, will be matched by
-    # the default route: :controller/:action/:id
     #
     module Database
 
@@ -140,7 +119,7 @@ module Paperclip
       end
 
       def override_default_options
-        @options[:url] = ":relative_root/:class/:attachment/:id?style=:style&paperclip_database=1" if (@options[:url] == self.class.default_options[:url])
+        @options[:url] = ":relative_root/static_content/:class/:attachment/:id/:style" if (@options[:url] == self.class.default_options[:url])
         @options[:path] = ":database_path"
       end
 

@@ -15,12 +15,11 @@ module PaperclipDatabase
     private
 
     def paperclip_database_request?(env)
-      env['REQUEST_URI'] =~ /paperclip_database/
+      env['REQUEST_URI'] =~ /static_content/
     end
 
     def send_image(env)
-      id, attachment_name, klass_name = env['PATH_INFO'].split('/').reverse
-      style = Rack::Utils.parse_query(env['QUERY_STRING'], '&')['style']
+      style, id, attachment_name, klass_name = env['PATH_INFO'].split('/').reverse
 
       model = klass_name.classify.constantize.send(:find, id)
       paperclip_attachment = model.send(attachment_name.singularize)
